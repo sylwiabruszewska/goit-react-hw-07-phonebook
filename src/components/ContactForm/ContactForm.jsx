@@ -3,12 +3,12 @@ import { Button, Input, InputField } from 'components';
 import Notiflix from 'notiflix';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/slices/contactsSlice';
-import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
 
   const handleAddContact = ({ name, number }) => {
     const isContactExists = contacts.some(
@@ -16,7 +16,7 @@ export const ContactForm = () => {
     );
 
     if (!isContactExists) {
-      dispatch(addContact(name, number));
+      dispatch(addContact({ name, number }));
       Notiflix.Notify.success(`Contact ${name} added successfully`);
     } else {
       Notiflix.Notify.warning(`${name} is already in contacts`);
